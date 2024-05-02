@@ -1,0 +1,190 @@
+{% extends 'base.html' %} 
+
+{% load humanize %}
+
+{% block title %} | Welcome {% endblock %}
+
+{% block content %}
+<!-- Showcase -->
+<section id="showcase">
+    <div class="container text-center">
+      <div class="home-search p-5">
+        <div class="overlay p-5">
+          <h1 class="display-4 mb-4">
+            Kërkoni Pronën Tuaj Më Lehtë
+          </h1>
+          <p class="lead">Zgjidhni platformën tonë për të gjetur shtëpinë ideale ose investimin e përsosur në pronë. Navigoni lehtësisht mes listimeve të hollësishme dhe realizojeni ëndrrën tuaj për një hapësirë të re me më pak përpjekje dhe kohë.</p>
+          <div class="search">
+            <form action="{% url 'search' %}">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Keywords</label>
+                  <input type="text" name="keywords" class="form-control" placeholder="Keyword (Pishinë, Garazhë, Xhakuzi, etc)">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">City</label>
+                  <select name="city" class="form-control">
+                    <option selected="false" disabled="disabled">Qyteti</option>
+                    {% for key,value in cities_choices.items %}
+                        <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">State</label>
+                  <select name="state" class="form-control">
+                    <option selected="false" disabled="enabled">Shteti</option>
+                    {% for key,value in state_choices.items %}
+                      <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label class="sr-only">Bedrooms</label>
+                  <select name="bedrooms" class="form-control">
+                    <option selected="true" disabled="disabled">Dhoma gjumi</option>
+                    {% for key,value in bedroom_choices.items %}
+                      <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <select name="price" class="form-control" id="type">
+                    <option selected="true" disabled="disabled">Çmimi</option>
+                    {% for key,value in price_choices.items %}
+                      <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <button class="btn btn-secondary btn-block mt-4 mr-3" type="submit">Kërko</button>
+                  <button class="btn btn-secondary btn-block mt-4" type="reset">Rifresko</button>
+                  <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var resetButton = document.querySelector('button[type="reset"]');
+                        resetButton.addEventListener('click', function(e) {
+                            e.preventDefault(); // Prevent the default reset behavior
+                            history.pushState({}, "/listings/search", location.pathname); // Clear URL query parameters
+                            var form = this.closest('form'); // Find the closest form element
+                            form.reset(); // Reset the form fields to initial values
+                            // Optionally, reload the page if you want a fresh state
+                            location.reload();
+                        });
+                    });
+                    </script>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<br>
+  <!-- Alerts -->
+  {% include 'partials/_alerts.html' %}
+
+  <!-- Listings -->
+  <section id="listings" class="py-5">
+    <div class="container">
+      <h3 class="text-center mb-3">Listimet Tona</h3>
+      <div class="row">
+        {% if listings %}
+          {% for listing in listings %}
+            <!-- Listing 1 -->
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card listing-preview">
+                <img class="card-img-top" src="{{ listing.photo_main.url }}" alt="">
+                <div class="card-img-overlay">
+                  <h2>
+                    <span class="badge badge-secondary text-white">${{ listing.price | intcomma }}</span>
+                  </h2>
+                </div>
+                <div class="card-body">
+                  <div class="listing-heading text-center">
+                    <h4 class="text-primary">{{ listing.title }}</h4>
+                    <p>
+                      <i class="fas fa-map-marker text-secondary"></i> {{ listing.city }} {{ listing.state }}, {{ listing.zipcode }}</p>
+                  </div>
+                  <hr>
+                  <div class="row py-2 text-secondary">
+                    <div class="col-6">
+                      <i class="fas fa-th-large"></i> Meter Katror: {{ listing.sqft }}</div>
+                    <div class="col-6">
+                      <i class="fas fa-car"></i> Garazhë: {{ listing.garage }}</div>
+                  </div>
+                  <div class="row py-2 text-secondary">
+                    <div class="col-6">
+                      <i class="fas fa-bed"></i> Dhoma Gjumi: {{ listing.bedrooms }}</div>
+                    <div class="col-6">
+                      <i class="fas fa-bath"></i> Banjo: {{ listing.bathrooms }}</div>
+                  </div>
+                  <hr>
+                  <div class="row py-2 text-secondary">
+                    <div class="col-6">
+                      <i class="fas fa-user"></i> {{ listing.realtor }}</div>
+                  </div>
+                  <div class="row text-secondary pb-2">
+                    <div class="col-6">
+                      <i class="fas fa-clock"></i> {{ listing.list_date | timesince }}</div>
+                  </div>
+                  <hr>
+                  <a href="{% url 'listing' listing.id %}" class="btn btn-primary btn-block">More Info</a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-md-12">
+            <p>Nuk ka listimet</p>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="py-5 bg-secondary text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <i class="fas fa-comment fa-4x mr-4"></i>
+          <hr>
+          <h3>Shërbime Konsultimi</h3>
+          <p>Eksploroni mundësitë me ekspertët tanë të patundshmërisë. Ofrim shërbime të personalizuara që mbulojnë çdo aspekt të blerjes, shitjes, dhe qiradhënies së pronave. 
+            Nga vlerësimi i detajuar dhe i saktë i pronës, deri te identifikimi i mundësive të investimit dhe zgjidhjet financiare, ne jemi këtu për t'ju ndihmuar të merrni vendimet më të mira.</p>
+          <p>Me një ekspertizë të thellë në tregun e patundshmërisë dhe një rrjet të gjerë të kontakteve financiare, ne mund t'ju ofrojmë këshilla strategjike që përputhen me objektivat tuaja afatgjata dhe afatshkurta. 
+            Qoftë se kërkoni të financioni blerjen e një prona të re, të rifinancioni një kredi ekzistuese, ose të merrni vlerën më të lartë nga një shitje, agjentët tanë janë të pajisur për të negociuar marrëveshjet më të favorshme për ju.</p>
+          <p>Lidhuni me agjentët tanë për të ju bërë një tur virtual për shtëpinë tuaj dhe për të diskutuar më tej nevojat tuaja specifike. 
+            Ne ju sigurojmë qasje të personalizuar dhe mbështetje të vazhdueshme në çdo hap të rrugës.</p>
+
+
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-home fa-4x mr-4"></i>
+          <hr>
+          <h3>Menaxhimi dhe Mirëmbajtja e Pronave</h3>
+            <p>Ne marrim përsipër të gjitha nevojat për mirëmbajtjen e pronës suaj. Jo vetëm që sigurojmë pastrimin dhe rregullimin e çdo gjëje të prishur, por gjithashtu kujdesemi për kontrollin e sigurisë të pronave që na besoni.</p>
+              <p>Kujdesemi për çdo detaj për të garantuar që ju dhe klientët tuaj të ndiheni të sigurt dhe të kënaqur, duke ofruar një shërbim të plotë dhe të paanshëm për çdo nevojë të patundshmërisë tuaj.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-suitcase fa-4x mr-4"></i>
+          <hr>
+          <<h3>Qiradhënie dhe Shitje</h3>
+          <p>Ne jemi partneri juaj i besueshëm për menaxhimin e të gjitha aspekteve të banesave, shtëpive, dhe vilave tuaja, qoftë për qiradhënie apo shitje. 
+            Merrni avantazhin e shërbimeve tona të plota, që përfshijnë marketing të specializuar, negociata, dhe mirëmbajtje të vazhdueshme. 
+            Kujdesemi për çdo detaj nga fillimi deri në fund, duke ju mundësuar të përqendroheni në përfitimet tuaja financiare pa u ngarkuar me përgjegjësitë operative.</p>
+          <p>Nëpërmjet ekspertizës dhe përkushtimit tonë, sigurojmë që çdo aspekt i procesit të qiradhënies dhe shitjes të shkojë sa më l��muar, duke garantuar kënaqësinë e plotë të të gjithë palëve të përfshira. 
+              Ju merrni të ardhurat e qirasë ose shitjes në fund të muajit, ndërsa ne mbulojmë të gjitha nevojat dhe sfidat që mund të lindin.</p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
