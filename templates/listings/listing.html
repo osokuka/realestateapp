@@ -172,7 +172,9 @@
         </div>
         <div class="col-md-3">
           <div class="card mb-3">
-            <img class="card-img-top" src="{{ listing.realtor.photo.url }}" alt="Photo of {{ listing.realtor.name }}">
+            <a href="{% url 'realtor_profile' listing.realtor.id %}">
+              <img class="card-img-top" src="{{ listing.realtor.photo.url }}" alt="Photo of {{ listing.realtor.name }}">
+          </a>
             <div class="card-body">
               <h5 class="card-title">Realtor</h5>
               <h6 class="text-secondary">{{ listing.realtor }}</h6>

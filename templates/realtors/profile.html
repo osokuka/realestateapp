@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section id="showcase-inner" class="py-5 text-white" style="background-color: #28a745;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h1 class="display-4">{{ realtor.name }}</h1>
+                <p class="lead">{{ realtor.description }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Breadcrumb -->
+<section id="bc" class="mt-3">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="fas fa-home"></i> Faqja Kryesore</a></li>
+                <li class="breadcrumb-item active">Profili {{ realtor.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Realtor Details -->
+<section id="realtor-details" class="py-4 bg-theme"> <!-- Using a global background theme class -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3 border-0"> <!-- Using border-0 class for no border -->
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="{{ realtor.photo.url }}" class="card-img" alt="Photo of {{ realtor.name }}">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body" style="color: navy;"> <!-- All text in the card now navy blue -->
+                                <h5 class="card-title">{{ realtor.name }}</h5> <!-- Removed text-primary to apply navy blue -->
+                                <p class="card-text">{{ realtor.description }}</p> <!-- Navy blue applied from parent -->
+                                <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ realtor.email }}">{{ realtor.email }}</a></p>
+                                <p class="card-text"><strong>Phone:</strong> <a href="tel:{{ realtor.phone }}">{{ realtor.phone }}</a></p>
+                                {% if realtor.is_employee_of_the_month %}
+                                    <p class="card-text text-success"><strong>Employee of the Month</strong></p> <!-- text-success remains for distinction -->
+                                {% endif %}
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% load humanize %}
+<!-- Listings by Realtor -->
+<section id="listings" class="py-4">
+    <div class="container">
+        <div class="row">
+            {% for listing in listings %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card listing-preview">
+                    <img class="card-img-top" src="{{ listing.photo_main.url }}" alt="">
+
+                    <div class="card-img-overlay">
+                        <h2><span class="badge badge-secondary text-white">${{ listing.price | intcomma }}</span></h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="listing-heading text-center">
+                            <h4 class="text-primary">{{ listing.title }}</h4>
+                            <p><i class="fas fa-map-marker text-secondary"></i> {{ listing.city }} {{ listing.state }}, {{ listing.zipcode }}</p>
+                        </div>
+                        <hr>
+                        <div class="row py-2 text-secondary">
+                            <div class="col-6"><i class="fas fa-th-large"></i> Meter katrorë: {{ listing.sqft }}</div>
+                            <div class="col-6"><i class="fas fa-car"></i> Garazhë: {{ listing.garage }}</div>
+                        </div>
+                        <div class="row py-2 text-secondary">
+                            <div class="col-6"><i class="fas fa-bed"></i> Dhoma gjumi: {{ listing.bedrooms }}</div>
+                            <div class="col-6"><i class="fas fa-bath"></i> Banjo: {{ listing.bathrooms }}</div>
+                        </div>
+                        <hr>
+                        <a href="{% url 'listing' listing.id %}" class="btn btn-primary btn-block">Më shumë info</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

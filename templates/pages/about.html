@@ -47,13 +47,17 @@
             {% for realtor in mvp_realtors %}
             <div class="card">
               {% if realtor.photo %}
-              <img src="{{ realtor.photo.url }}" alt="Realtor photo">
+              <a href="{% url 'realtor_profile' realtor.id %}">
+                <img class="card-img-top" src="{{ realtor.photo.url }}" alt="Photo of {{ realtor.name }}">
+              </a>
           {% else %}
               <img src="{% static 'img/realtor_defaultimg.jpg' %}" alt="Default photo">
           {% endif %}
                 <div class="card-body">
                   <h5 class="card-title">Shitesi i Muajit</h5>
-                  <h6 class="text-secondary">{{ realtor.name }}</h6>
+                  <a href="{% url 'realtor_profile' realtor.id %}">
+                    <h6 class="text-secondary">{{ realtor.name }}</h6>
+                </a>
                   <p class="card-text">{{ realtor.description }}
                   </p>
                 </div>
