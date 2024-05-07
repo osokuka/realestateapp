@@ -3,6 +3,8 @@ from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from contacts.models import Contact
 from .models import UserProfile
+from listings.models import Listing
+from realtors.models import Realtor
 
 def register(request):
   if request.method == 'POST':
@@ -67,10 +69,54 @@ def logout(request):
     messages.success(request, 'You are now logged out')
     return redirect('index')
 
-def dashboard(request):
-  user_contacts = Contact.objects.order_by('-contact_date').filter(user_id=request.user.id)
+from django.shortcuts import render
+from contacts.models import Contact
+from listings.models import Listing
+from accounts.models import UserProfile
 
-  context = {
-    'contacts': user_contacts
-  }
-  return render(request, 'accounts/dashboard.html', context)
+def dashboard(request):
+    user = request.user
+    context = {}
+
+    # Check if the user has a profile and if they are a realtor
+    if hasattr(user, 'profile') and user.profile.is_realtor:
+        try:
+            realtor = Realtor.objects.get(user=user)
+            realtor_listings = Listing.objects.filter(realtor=realtor)
+            contacts = Contact.objects.filter(listing__in=realtor_listings).select_related('listing').order_by('-contact_date')
+        except Realtor.DoesNotExist:
+            messages.error(request, "Realtor profile not found.")
+            return redirect('some_error_page')
+
+        contacts_with_listings = [
+            {
+                'name': contact.name,
+                'email': contact.email,
+                'phone': contact.phone,
+                'message': contact.message,
+                'contact_date': contact.contact_date.strftime('%Y-%m-%d %H:%M'),
+                'listing': contact.listing.title
+            }
+            for contact in contacts
+        ]
+        context['contacts_with_listings'] = contacts_with_listings
+
+    else:
+        # For regular users, fetch their inquiries
+        user_contacts = Contact.objects.filter(user_id=user.id).order_by('-contact_date').select_related('listing')
+
+        user_contacts_details = [
+            {
+                'name': contact.name,
+                'email': contact.email,
+                'phone': contact.phone,
+                'message': contact.message,
+                'contact_date': contact.contact_date.strftime('%Y-%m-%d %H:%M'),
+                'listing': contact.listing.title
+            }
+            for contact in user_contacts
+        ]
+        context['user_contacts'] = user_contacts_details
+
+    return render(request, 'accounts/dashboard.html', context)
+    return render(request, 'accounts/dashboard.html', context)

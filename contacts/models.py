@@ -1,9 +1,9 @@
 from django.db import models
 from datetime import datetime
+from listings.models import Listing
 
 class Contact(models.Model):
-  listing = models.CharField(max_length=200)
-  listing_id = models.IntegerField()
+  listing = models.ForeignKey(Listing, on_delete=models.DO_NOTHING)
   name = models.CharField(max_length=200)
   email = models.CharField(max_length=100)
   phone = models.CharField(max_length=100)

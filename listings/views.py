@@ -104,7 +104,7 @@ def add_listing_view(request):
             price=request.POST['price'],
             bedrooms=request.POST['bedrooms'],
             bathrooms=request.POST['bathrooms'],
-            sqft=request.POST['sqft'],
+            sqft=request.POST['sqmeter'],
             photo_main=request.FILES['photo_main'],
             is_published=True,
             list_date=datetime.now(),
