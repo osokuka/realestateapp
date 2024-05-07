@@ -40,7 +40,7 @@
   <!-- Listing -->
   <section id="listing" class="py-4">
     <div class="container">
-      <a href="{% url 'listings' %}" class="btn btn-light mb-4">Prap tek listimet</a>
+      <a href="{% url 'listings' %}" class="btn btn-light mb-4">Kthehu Tek Listimet</a>
       <div class="row">
         <div class="col-md-9">
           <!-- Home Main Image -->
@@ -94,6 +94,10 @@
           <div class="row mb-5 fields">
             <div class="col-md-6">
               <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-name"></i> Emertimi:
+                  <span class="float-right">{{ listing.title }}</span>
+                </li>
                 <li class="list-group-item text-secondary">
                   <i class="fas fa-building"></i> Tipi:
                   <span class="float-right">{{ listing.type }}</span>
@@ -155,15 +159,20 @@
           </div>
 
           <!-- Description -->
-          <div class="row mb-5">
+          <div class="row">
             <div class="col-md-12">
-                {{ listing.description }}
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="card-title">Pershkrimi</h6>
+                  <p class="card-text">{{ listing.description }}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="card mb-3">
-            <img class="card-img-top" src="{{ listing.realtor.photo.url }}" alt="">
+            <img class="card-img-top" src="{{ listing.realtor.photo.url }}" alt="Photo of {{ listing.realtor.name }}">
             <div class="card-body">
               <h5 class="card-title">Realtor</h5>
               <h6 class="text-secondary">{{ listing.realtor }}</h6>
