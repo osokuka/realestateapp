@@ -1,6 +1,12 @@
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+
+from accounts.models import UserProfile
 from .choices import price_choices, bedroom_choices, state_choices, cities_choices
+from django.shortcuts import render, redirect
+from .models import Listing
+from django.contrib import messages
+from django.utils.timezone import datetime
 
 from .models import Listing
 
@@ -69,3 +75,52 @@ def search(request):
   }
 
   return render(request, 'listings/search.html', context)
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Listing, Realtor
+from django.contrib.auth.models import User
+
+@login_required
+def add_listing_view(request):
+    if request.method == 'POST':
+        user_id = request.user
+        try:
+            realtor = Realtor.objects.get(user_id=user_id)
+        except Realtor.DoesNotExist:
+            messages.error(request, 'Realtor profile does not exist.')
+            return redirect('realtors:create')
+        # Create a new listing instance from POST data
+        new_listing = Listing(
+            realtor=realtor,
+            title=request.POST['title'],
+            address=request.POST['address'],
+            city=request.POST['city'],
+            state=request.POST['state'],
+            zipcode=request.POST['zipcode'],
+            price=request.POST['price'],
+            bedrooms=request.POST['bedrooms'],
+            bathrooms=request.POST['bathrooms'],
+            sqft=request.POST['sqft'],
+            photo_main=request.FILES['photo_main'],
+            is_published=True,
+            list_date=datetime.now(),
+            type=request.POST['type'],
+            lot_size=request.POST['lot_size'],
+            garage=request.POST['garage'],
+            description=request.POST['description'],
+        )
+        
+        for i in range(1, 10):  # Assuming a maximum of 9 additional photos
+            photo_key = f'photo_{i}'
+            if photo_key in request.FILES:
+                setattr(new_listing, photo_key, request.FILES[photo_key])
+
+        new_listing.save()
+        messages.success(request, 'Your listing has been successfully created!')
+        return redirect('listings:listings')
+    else:
+        return render(request, 'listings/add_listing.html')

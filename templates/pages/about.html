@@ -46,7 +46,11 @@
           {% if mvp_realtors %}
             {% for realtor in mvp_realtors %}
             <div class="card">
-                <img class="card-img-top" src="{{ realtor.photo.url }}" alt="Seller of the month">
+              {% if realtor.photo %}
+              <img src="{{ realtor.photo.url }}" alt="Realtor photo">
+          {% else %}
+              <img src="{% static 'img/realtor_defaultimg.jpg' %}" alt="Default photo">
+          {% endif %}
                 <div class="card-body">
                   <h5 class="card-title">Shitesi i Muajit</h5>
                   <h6 class="text-secondary">{{ realtor.name }}</h6>
@@ -78,7 +82,11 @@
         {% if realtors %}
           {% for realtor in realtors %}
           <div class="col-md-4">
-              <img src="{{ realtor.photo.url }}" alt="" class="rounded-circle mb-3">
+            {% if realtor.photo and realtor.photo.url %}
+              <img src="{{ realtor.photo.url }}" alt="Realtor photo">
+                {% else %}
+                    <img src="{% static 'img/realtor_defaultimg.jpg' %}" alt="Default photo">
+                {% endif %}
               <h4>{{ realtor.name }}</h4>
               <p class="text-success">
                 <i class="fas fa-award text-success mb-3"></i> Realtor i Muajit</p>

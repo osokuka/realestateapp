@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %} | Add Listing {% endblock %}
+
+{% block content %}
+<section id="add-listing" class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4>
+                            <i class="fas fa-plus-square"></i> Add New Listing
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'add_listing' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="title">Emertimi Shpalljes</label>
+                                        <input type="text" name="title" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Adresa</label>
+                                        <input type="text" name="address" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city">Qyteti</label>
+                                        <input type="text" name="city" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="state">Shteti</label>
+                                        <input type="text" name="state" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="zipcode">Kodi Postar</label>
+                                        <input type="text" name="zipcode" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="type">Lloji Pronës</label>
+                                        <input type="text" name="type" class="form-control" value="Shtepi">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Përshkrimi</label>
+                                        <textarea name="description" class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="price">Çmimi</label>
+                                        <input type="number" name="price" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bedrooms">Dhoma Gjumi</label>
+                                        <input type="number" name="bedrooms" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bathrooms">Banjo</label>
+                                        <input type="number" name="bathrooms" class="form-control" step="0.1" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="garage">Garazha</label>
+                                        <input type="number" name="garage" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sqft">Meter Katror</label>
+                                        <input type="number" name="sqft" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lot_size">Siperfaqja</label>
+                                        <input type="number" name="lot_size" class="form-control" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="photo_main">Main Photo</label>
+                                        <input type="file" name="photo_main" class="form-control-file" required>
+                                    </div>
+                                    <div id="additional-photos"></div>
+                                    <button type="button" class="btn btn-info" id="add-photo-btn">Add More Photos</button>
+                                </div>
+                            </div>
+                            <input type="submit" value="Add Listing" class="btn btn-secondary btn-block">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.getElementById('add-photo-btn').addEventListener('click', function() {
+    var container = document.getElementById('additional-photos');
+    var newPhotoInput = document.createElement('input');
+    newPhotoInput.type = 'file';
+    newPhotoInput.name = 'additional_photos';
+    newPhotoInput.className = 'form-control-file mt-2';
+    container.appendChild(newPhotoInput);
+});
+</script>
+
+
+{% endblock %}

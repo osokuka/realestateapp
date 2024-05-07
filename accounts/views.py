@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from contacts.models import Contact
+from .models import UserProfile
 
 def register(request):
   if request.method == 'POST':
@@ -48,7 +49,11 @@ def login(request):
 
     if user is not None:
       auth.login(request, user)
-      messages.success(request, 'You are now logged in')
+      # Fetch the user profile to check if the user is a realtor
+      user_profile = UserProfile.objects.get(user=user)
+            # Store is_realtor in session
+      request.session['is_realtor'] = user_profile.is_realtor
+      #messages.success(request, 'You are now logged in')
       return redirect('dashboard')
     else:
       messages.error(request, 'Invalid credentials')

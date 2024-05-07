@@ -26,7 +26,7 @@
               class="nav-item mr-3"
             {% endif %}
           >
-            <a class="nav-link" href="{% url 'about' %}">Rreth Neshën</a>
+            <a class="nav-link" href="{% url 'about' %}">Rreth Nesh</a>
           </li>
           <li
             {% if 'listings' in request.path %}
@@ -41,6 +41,7 @@
 
         <ul class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
+            
             <li
             {% if 'dashboard' in request.path %}
               class="nav-item active mr-3"
@@ -50,7 +51,14 @@
             >
               <a class="nav-link" href="{% url 'dashboard' %}">
                Mirësevini {{ user.username }} (Paneli Punes)</a>
+               
             </li>
+            {% if request.session.is_realtor %}
+            <li {% if 'add_listing' in request.path %}class="nav-item active mr-3"{% else %}class="nav-item mr-3"{% endif %}>
+              <a class="nav-link" href="{% url 'add_listing' %}">Add Listing</a>
+            </li>
+          {% endif %}
+
             <li class="nav-item mr-3">
               <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
                 <i class="fas fa-sign-out-alt"></i> Logout
