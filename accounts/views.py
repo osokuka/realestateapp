@@ -82,8 +82,13 @@ def dashboard(request):
     if hasattr(user, 'profile') and user.profile.is_realtor:
         try:
             realtor = Realtor.objects.get(user=user)
-            realtor_listings = Listing.objects.filter(realtor=realtor)
+            #lets select all listings with all info for this realtor
+            realtor_listings = Listing.objects.filter(realtor=realtor).select_related('realtor')
+            print(realtor_listings)
+            #print(realtor)
+
             contacts = Contact.objects.filter(listing__in=realtor_listings).select_related('listing').order_by('-contact_date')
+            print(contacts)        
         except Realtor.DoesNotExist:
             messages.error(request, "Realtor profile not found.")
             return redirect('some_error_page')
@@ -100,6 +105,7 @@ def dashboard(request):
             for contact in contacts
         ]
         context['contacts_with_listings'] = contacts_with_listings
+        context['realtor_listings'] = realtor_listings
 
     else:
         # For regular users, fetch their inquiries
@@ -118,5 +124,7 @@ def dashboard(request):
         ]
         context['user_contacts'] = user_contacts_details
 
+      
+
     return render(request, 'accounts/dashboard.html', context)
-    return render(request, 'accounts/dashboard.html', context)
+    

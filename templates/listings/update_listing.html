@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Listing{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Edit Listing</h2>
+    <form id="editListingForm" class="form-row" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="col-md-6">
+            <!-- Column 1 -->
+            <div class="form-group">
+                <label for="listingTitle">Title</label>
+                <input type="text" class="form-control" id="listingTitle" name="title" value="{{ listing.title }}">
+            </div>
+            <div class="form-group">
+                <label for="listingType">Tipi</label>
+                <input type="text" class="form-control" id="listingType" name="type" value="{{ listing.type }}">
+            </div>
+            <div class="form-group">
+                <label for="listingAddress">Adresa</label>
+                <input type="text" class="form-control" id="listingAddress" name="address" value="{{ listing.address }}">
+            </div>
+            <div class="form-group">
+                <label for="listingBedrooms">Dhoma</label>
+                <input type="text" class="form-control" id="listingBedrooms" name="bedrooms" value="{{ listing.bedrooms }}">
+            </div>
+            <div class="form-group">
+                <label for="listingBathrooms">Banjo</label>
+                <input type="text" class="form-control" id="listingBathrooms" name="bathrooms" value="{{ listing.bathrooms }}">
+            </div>
+            <div class="form-group">
+                <label for="listingGarage">Garazha</label>
+                <input type="text" class="form-control" id="listingGarage" name="garage" value="{{ listing.garage }}">
+            </div>
+            <div class="form-group">
+                <label for="listingLotSize">Trualli</label>
+                <input type="text" class="form-control" id="listingLotSize" name="lot_size" value="{{ listing.lot_size }}">
+            </div>
+            <div class="form-group">
+                <label for="listingVirtualTour">Virtual</label>
+                <input type="text" class="form-control" id="listingVirtualTour" name="virtual_tour" value="{{ listing.virtual_tour }}">
+            </div>
+            <div class="form-group">
+                <label for="listingIsPublished">Publikimit</label>
+                <input type="checkbox" class="form-control" id="listingIsPublished" name="is_published" {% if listing.is_published %}checked{% endif %}>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <!-- Column 2 -->
+            <div class="form-group">
+                <label for="listingCity">Qyteti</label>
+                <input type="text" class="form-control" id="listingCity" name="city" value="{{ listing.city }}">
+            </div>
+            <div class="form-group">
+                <label for="listingState">Shteti</label>
+                <input type="text" class="form-control" id="listingState" name="state" value="{{ listing.state }}">
+            </div>
+            <div class="form-group">
+                <label for="listingPrice">Cmimi</label>
+                <input type="text" class="form-control" id="listingPrice" name="price" value="{{ listing.price }}">
+            </div>
+            <div class="form-group">
+                <label for="listingSqft">Meter Katrorë</label>
+                <input type="text" class="form-control" id="listingSqft" name="sqft" value="{{ listing.sqft }}">
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group" id="photoUploadsContainer">
+                <label for="listingMainPhoto">Foto</label>
+                <input type="file" class="form-control" id="listingMainPhoto" name="main_photo">
+            </div>
+            <button type="button" class="btn btn-info" id="addPhotoButton">Add More Photos</button>
+        </div>
+        <div class="col-12 mt-4">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

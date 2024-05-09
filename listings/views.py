@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from .models import Listing
 from django.contrib import messages
 from django.utils.timezone import datetime
+from django.contrib.auth.decorators import login_required
 
 from .models import Listing
 
@@ -23,14 +24,45 @@ def index(request):
 
   return render(request, 'listings/listings.html', context)
 
-def listing(request, listing_id):
+def listing_by_id_view(request, listing_id):
   listing = get_object_or_404(Listing, pk=listing_id)
 
   context = {
-    'listing': listing
+    'listing': Listing.objects.get(pk=listing_id)
+    
   }
 
+  print(context)  
   return render(request, 'listings/listing.html', context)
+
+@login_required
+def edit_listing_view(request, listing_id):
+    listing = get_object_or_404(Listing, pk=listing_id)
+    context = {
+        'listing': listing
+    }
+    return render(request, 'listings/update_listing.html', context)
+
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+@login_required
+def delete_listing_view(request, listing_id):
+    #check if listing is owned by realtor
+    if request.user.is_authenticated:
+        realtor = Realtor.objects.get(user=request.user)
+        listing = Listing.objects.get(id=listing_id)
+        if listing.realtor != realtor:
+            messages.error(request, 'You are not authorized to delete this listing.')
+            return HttpResponseRedirect(reverse('dashboard'))  
+
+    if request.method == 'POST':
+        listing = get_object_or_404(Listing, pk=listing_id)
+        listing.delete()
+        messages.success(request, 'The listing has been successfully deleted.')
+        return HttpResponseRedirect(reverse('dashboard'))  # Redirect to the listings index page
+    else:
+        return render(request, 'listings/delete_confirm.html', {'listing_id': listing_id})
 
 def search(request):
   queryset_list = Listing.objects.order_by('-list_date')
@@ -104,7 +136,7 @@ def add_listing_view(request):
             price=request.POST['price'],
             bedrooms=request.POST['bedrooms'],
             bathrooms=request.POST['bathrooms'],
-            sqft=request.POST['sqmeter'],
+            sqft=request.POST['sqft'],
             photo_main=request.FILES['photo_main'],
             is_published=True,
             list_date=datetime.now(),
@@ -121,6 +153,6 @@ def add_listing_view(request):
 
         new_listing.save()
         messages.success(request, 'Your listing has been successfully created!')
-        return redirect('listings:listings')
+        return redirect('dashboard')
     else:
         return render(request, 'listings/add_listing.html')

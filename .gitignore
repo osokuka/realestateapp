@@ -13,3 +13,4 @@ listings/__pycache__/models.cpython-312.pyc
 realestate/__pycache__/settings.cpython-312.pyc
 realtors/__pycache__/admin.cpython-312.pyc
 realtors/__pycache__/models.cpython-312.pyc
+.env
