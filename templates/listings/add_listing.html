@@ -28,11 +28,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="city">Qyteti</label>
-                                        <input type="text" name="city" class="form-control" required>
+                                        <select name="city" class="form-control" required id="city">
+                                            {% for city_key, city_name in cities_choices.items %}
+                                                <option value="{{ city_key }}">{{ city_name }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="state">Shteti</label>
-                                        <input type="text" name="state" class="form-control" required>
+                                        <select name="state" class="form-control" required id="state">
+                                            {% for state_key, state_name in state_choices.items %}
+                                                <option value="{{ state_key }}">{{ state_name }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="zipcode">Kodi Postar</label>
@@ -105,6 +113,7 @@ document.getElementById('add-photo-btn').addEventListener('click', function() {
     container.appendChild(newPhotoInput);
 });
 </script>
+
 
 
 {% endblock %}

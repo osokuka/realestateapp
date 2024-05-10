@@ -152,7 +152,7 @@
                   <span class="float-right">{{ listing.list_date }}</span>
                 </li>
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-bed"></i> Realtor:
+                  <i class="fas fa-user-tie"></i> Realtor:
                   <span class="float-right">{{ listing.realtor }}
                   </span>
                 </li>
@@ -180,10 +180,14 @@
             <div class="card-body">
               <h5 class="card-title">Realtor</h5>
               <h6 class="text-secondary">{{ listing.realtor }}</h6>
+              <hr>
+              <a href="{% url 'realtor_profile' listing.realtor.id %}" class="btn btn-secondary btn-block">
+                <i class="fas fa-user-tie"></i> Profili i Realtorit
+              </a>
             </div>
           </div>
           <!-- Button to Open the Inquiry Modal -->
-          <button class="btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Make An Inquiry</button>
+          <button class="btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Bëni Kërkesë</button>
         </div>
       </div>
     </div>

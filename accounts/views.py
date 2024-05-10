@@ -54,9 +54,14 @@ def login(request):
       # Fetch the user profile to check if the user is a realtor
       user_profile = UserProfile.objects.get(user=user)
             # Store is_realtor in session
+    
       request.session['is_realtor'] = user_profile.is_realtor
+      if user_profile.is_realtor:
+        return redirect('dashboard')
+      else:
+        return redirect('index')
       #messages.success(request, 'You are now logged in')
-      return redirect('dashboard')
+      
     else:
       messages.error(request, 'Invalid credentials')
       return redirect('login')
@@ -81,10 +86,12 @@ def dashboard(request):
     # Check if the user has a profile and if they are a realtor
     if hasattr(user, 'profile') and user.profile.is_realtor:
         try:
+            
             realtor = Realtor.objects.get(user=user)
             #lets select all listings with all info for this realtor
             realtor_listings = Listing.objects.filter(realtor=realtor).select_related('realtor')
-            print(realtor_listings)
+            first_realtor_id = realtor_listings.first().realtor.id if realtor_listings.exists() else None
+            print(first_realtor_id)
             #print(realtor)
 
             contacts = Contact.objects.filter(listing__in=realtor_listings).select_related('listing').order_by('-contact_date')
@@ -95,6 +102,7 @@ def dashboard(request):
 
         contacts_with_listings = [
             {
+                
                 'name': contact.name,
                 'email': contact.email,
                 'phone': contact.phone,
@@ -106,6 +114,7 @@ def dashboard(request):
         ]
         context['contacts_with_listings'] = contacts_with_listings
         context['realtor_listings'] = realtor_listings
+        context['first_realtor_id'] = first_realtor_id
 
     else:
         # For regular users, fetch their inquiries

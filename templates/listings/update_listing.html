@@ -47,14 +47,22 @@
             </div>
         </div>
         <div class="col-md-6">
-            <!-- Column 2 -->
+            <!-- Column 2 city and state loads from chices-->
             <div class="form-group">
                 <label for="listingCity">Qyteti</label>
-                <input type="text" class="form-control" id="listingCity" name="city" value="{{ listing.city }}">
+                <select class="form-control" id="listingCity" name="city">
+                    {% for city_key, city_name in cities_choices.items %}
+                        <option value="{{ city_key }}" {% if listing.city == city_key %}selected{% endif %}>{{ city_name }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="form-group">
                 <label for="listingState">Shteti</label>
-                <input type="text" class="form-control" id="listingState" name="state" value="{{ listing.state }}">
+                <select class="form-control" id="listingState" name="state">
+                    {% for state_key, state_name in state_choices.items %}
+                        <option value="{{ state_key }}" {% if listing.state == state_key %}selected{% endif %}>{{ state_name }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="form-group">
                 <label for="listingPrice">Cmimi</label>
@@ -63,6 +71,10 @@
             <div class="form-group">
                 <label for="listingSqft">Meter Katrorë</label>
                 <input type="text" class="form-control" id="listingSqft" name="sqft" value="{{ listing.sqft }}">
+            </div>
+            <div class="form-group"><!-- accept html tags, bold italic and smileys icons -->
+                <label for="listingDescription">Përshkrim</label>
+                <textarea class="form-control" id="listingDescription" name="description" rows="3">{{ listing.description }}</textarea>
             </div>
         </div>
         <div class="col-12">
@@ -77,4 +89,14 @@
         </div>
     </form>
 </div>
+<script>
+    document.getElementById('add-photo-btn').addEventListener('click', function() {
+        var container = document.getElementById('addPhotoButton');
+        var newPhotoInput = document.createElement('input');
+        newPhotoInput.type = 'file';
+        newPhotoInput.name = 'additional_photos';
+        newPhotoInput.className = 'form-control-file mt-2';
+        container.appendChild(newPhotoInput);
+    });
+    </script>
 {% endblock %}
