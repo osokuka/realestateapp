@@ -7,6 +7,8 @@ pages/__pycache__
 .DS_Store
 *.pyc
 *.pyo
+*.jpg
+
 
 
 listings/__pycache__/models.cpython-312.pyc

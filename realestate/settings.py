@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'realestate.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-'''DATABASES={
+DATABASES={
     'default':{
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'real_estate' ,
@@ -91,9 +91,9 @@ WSGI_APPLICATION = 'realestate.wsgi.application'
     }
 
 
-}'''
+}
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'real_estate' ,
@@ -102,7 +102,7 @@ DATABASES = {
         'HOST':'192.168.1.168',
          'PORT':'5432'   
     }
-}
+}'''
 
 '''#DATABASES = {
     'default': {
