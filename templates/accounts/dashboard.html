@@ -36,19 +36,27 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h4>Miresevini {{ user.first_name }}</h4>
+          <!---the link to realtord has to go back from /accounts/dashboard to /realtors/realtors/numberid/-->
+          <div class="text-center mb-3"> 
+            {% if first_realtor_id %}
+              <a href="{% url 'realtor_profile' first_realtor_id %}"><h4 class="text-center mb-3">Miresevini {{ user.first_name}}</h4></a>
+           
+            {% else %}
+              <h4 class="text-center mb-3">Miresevini {{ user.first_name}}</h4>
+            {% endif %}
+          </div>
           {% if contacts_with_listings %}
-            <h3>Inquiries for Your Listings</h3>
+            <h4>Kërkesat nga klientët</h4>
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead class="thead-light">
                         <tr>
-                            <th>Listing Title</th>
-                            <th>From</th>
+                            <th>Titulli</th>
+                            <th>Nga</th>
                             <th>Email</th>
-                            <th>Phone</th>
-                            <th>Message</th>
-                            <th>Contacted On</th>
+                            <th>Nr. Telefonit</th>
+                            <th>Porosia</th>
+                            <th>Data</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,7 +74,7 @@
                 </table>
             </div>
           {% else %}
-            <p>No inquiries found.</p>
+            <p>Nuk keni kerkesa.</p>
           {% endif %}
 
           {% if realtor_listings %}
@@ -79,7 +87,7 @@
                         <th>City</th>
                         <th>State</th>
                         <th>Price</th>
-                        <th>Sqft</th>
+                        <th>Tipi</th>
                         <th>Date</th>
                         <th>Action</th>
                     </tr>
@@ -91,9 +99,10 @@
                             <td>{{ listin.city }}</td>
                             <td>{{ listin.state }}</td>
                             <td>{{ listin.price }}</td>
-                            <td>{{ listin.sqft }}</td>
-                            <td><a href="{% url 'edit-listing' listin.id %}" class="btn btn-info">Edit</a></td>
-                            <td><a href="{% url 'delete-listing' listin.id %}" class="btn btn-danger">Delete</a></td>
+                            <td>{{ listin.type }}</td>
+                            <td>{{ listin.list_date }}</td>
+                            <td><a href="{% url 'edit-listing' listin.id %}" class="btn btn-info mr-2">Edit</a>
+                            <a href="{% url 'delete-listing' listin.id %}" class="btn btn-danger ml-2">Delete</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

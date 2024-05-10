@@ -47,7 +47,7 @@
             {% for realtor in mvp_realtors %}
             <div class="card">
               {% if realtor.photo %}
-              <a href="{% url 'realtor_profile' realtor.id %}">
+              <a href="{% url 'realtor_profile' listing.realtor.id %}">
                 <img class="card-img-top" src="{{ realtor.photo.url }}" alt="Photo of {{ realtor.name }}">
               </a>
           {% else %}
@@ -55,7 +55,7 @@
           {% endif %}
                 <div class="card-body">
                   <h5 class="card-title">Shitesi i Muajit</h5>
-                  <a href="{% url 'realtor_profile' realtor.id %}">
+                  <a href="{% url 'realtor_profile' listing.realtor.id %}">
                     <h6 class="text-secondary">{{ realtor.name }}</h6>
                 </a>
                   <p class="card-text">{{ realtor.description }}
@@ -87,18 +87,24 @@
           {% for realtor in realtors %}
           <div class="col-md-4">
             {% if realtor.photo and realtor.photo.url %}
+            <a href="{% url 'realtor_profile' realtor.id %}">
               <img src="{{ realtor.photo.url }}" alt="Realtor photo">
+            </a>
                 {% else %}
                     <img src="{% static 'img/realtor_defaultimg.jpg' %}" alt="Default photo">
                 {% endif %}
+                <a href="{% url 'realtor_profile' realtor.id %}"> 
               <h4>{{ realtor.name }}</h4>
+              </a>
               <p class="text-success">
                 <i class="fas fa-award text-success mb-3"></i> Realtor i Muajit</p>
               <hr>
               <p>
-                <i class="fas fa-phone"></i> {{ realtor.phone }}</p>
+                <i class="fas fa-phone"></i> <a href="tel:{{ realtor.phone }}">{{ realtor.phone }}</a>
+              </p>
               <p>
-                <i class="fas fa-envelope-open"></i> {{ realtor.email }}</p>
+                <i class="fas fa-envelope-open"></i> <a href="mailto:{{ realtor.email }}">{{ realtor.email }}</a>
+              </p>
             </div>
           {% endfor %}
         {% else %}

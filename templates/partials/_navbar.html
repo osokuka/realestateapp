@@ -54,8 +54,15 @@
                
             </li>
             {% if request.session.is_realtor %}
-            <li {% if 'add_listing' in request.path %}class="nav-item active mr-3"{% else %}class="nav-item mr-3"{% endif %}>
-              <a class="nav-link" href="{% url 'add_listing' %}">Add Listing</a>
+            <li class="nav-item dropdown {% if 'add_listing' in request.path or 'edit_profile' in request.path %}active{% endif %}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Realtor Actions
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item {% if 'add_listing' in request.path %}active{% endif %}" href="{% url 'add_listing' %}">Shto Listimet</a>
+                    <a class="dropdown-item {% if 'edit_profile' in request.path %}active{% endif %}" href="{% url 'edit_profile' %}">Edit Profile</a>
+                    <a class="dropdown-item" href="#">TBD</a>
+                </div>
             </li>
           {% endif %}
 
@@ -95,4 +102,5 @@
         </ul>
       </div>
     </div>
+  </nav>
   </nav>

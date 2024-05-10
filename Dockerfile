@@ -18,23 +18,31 @@ RUN apt-get update && apt-get install -y \
 #COPY requirements.txt /app/
 RUN pip install --upgrade pip
 RUN pip install asgiref==3.2.10
+RUN pip install bleach==6.1.0
 RUN pip install certifi==2024.2.2
 RUN pip install charset-normalizer==3.3.2
+RUN pip install colorama==0.4.6
 RUN pip install Django==3.1.1
+RUN pip install django-widget-tweaks==1.5.0
 RUN pip install gunicorn==20.0.4
 RUN pip install idna==3.7
-RUN pip install numpy==1.24.4
+RUN pip install numpy==1.26.4
 RUN pip install pandas==2.2.2
 RUN pip install paytmchecksum==1.7.0
 RUN pip install pillow==10.3.0
 RUN pip install psycopg2==2.9.9
+RUN pip install pypng==0.20220715.0
 RUN pip install python-dateutil==2.9.0.post0
 RUN pip install pytz==2020.1
+RUN pip install qrcode==7.4.2
 RUN pip install requests==2.31.0
+RUN pip install setuptools==69.5.1
 RUN pip install six==1.16.0
 RUN pip install sqlparse==0.3.1
+RUN pip install typing_extensions==4.11.0
 RUN pip install tzdata==2024.1
 RUN pip install urllib3==2.2.1
+RUN pip install webencodings==0.5.1
 RUN pip install whitenoise==5.2.0
 
 # Add the rest of the code
