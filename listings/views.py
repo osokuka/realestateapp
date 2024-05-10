@@ -118,13 +118,14 @@ from django.contrib.auth.models import User
 
 @login_required
 def add_listing_view(request):
+    print(request)
     if request.method == 'POST':
         user_id = request.user
         try:
             realtor = Realtor.objects.get(user_id=user_id)
         except Realtor.DoesNotExist:
-            messages.error(request, 'Realtor profile does not exist.')
-            return redirect('realtors:create')
+            messages.error(request, 'Profili realtorit nuk eshte aktivizuar, kontaktoni realestate@prosolutions-ks.com.')
+            return redirect('dashboard')
         # Create a new listing instance from POST data
         new_listing = Listing(
             realtor=realtor,
@@ -150,9 +151,11 @@ def add_listing_view(request):
             photo_key = f'photo_{i}'
             if photo_key in request.FILES:
                 setattr(new_listing, photo_key, request.FILES[photo_key])
-
+        
+        print(new_listing)
         new_listing.save()
         messages.success(request, 'Your listing has been successfully created!')
         return redirect('dashboard')
     else:
         return render(request, 'listings/add_listing.html')
+       

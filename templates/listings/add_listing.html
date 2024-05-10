@@ -80,7 +80,7 @@
                                     <div class="mt-3">
                                         <button type="button" class="btn btn-info" id="add-photo-btn">Add More Photos</button>
                                     </div>
-                                                      </div>
+                                 </div>
                                 </div>
                             </div>
                             <div class="mt-1">
@@ -96,13 +96,15 @@
 </section>
 
 <script>
+let photoIndex = 1;  // Start indexing from 1
 document.getElementById('add-photo-btn').addEventListener('click', function() {
     var container = document.getElementById('additional-photos');
     var newPhotoInput = document.createElement('input');
     newPhotoInput.type = 'file';
-    newPhotoInput.name = 'additional_photos';
+    newPhotoInput.name = 'photo_' + photoIndex;  // Use photoIndex to name the input fields
     newPhotoInput.className = 'form-control-file mt-2';
     container.appendChild(newPhotoInput);
+    photoIndex++;  // Increment the index for the next photo
 });
 </script>
 
