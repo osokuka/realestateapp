@@ -178,15 +178,11 @@ from .models import Listing, Realtor
 
 @login_required
 def add_listing_view(request):
-<<<<<<< HEAD
-    print(request)
-=======
     #load choices for state and city
     from .choices import state_choices, cities_choices
     state_choices = state_choices
     cities_choices = cities_choices
 
->>>>>>> a3c320a1a472c5115e3f4ada9cdab89914d1ee62
     if request.method == 'POST':
         user_id = request.user
         try:
@@ -225,13 +221,9 @@ def add_listing_view(request):
         messages.success(request, 'Your listing has been successfully created!')
         return redirect('dashboard')
     else:
-<<<<<<< HEAD
-        return render(request, 'listings/add_listing.html')
-       
-=======
+    
         context = {
             'state_choices': state_choices,
             'cities_choices': cities_choices
         }
         return render(request, 'listings/add_listing.html', context)
->>>>>>> a3c320a1a472c5115e3f4ada9cdab89914d1ee62
