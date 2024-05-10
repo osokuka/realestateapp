@@ -21,13 +21,18 @@ def realtor_profile(request, realtor_id):
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import RealtorProfileForm
+from urllib.parse import urlparse, urlunparse
 
 @login_required
 def edit_realtor_profile(request):
     realtor = request.user.realtor  # Assuming a OneToOne link from User to Realtor
-    realtor_photo = realtor.photo
     # Generate the full URL to the realtor's profile
     profile_url = request.build_absolute_uri(reverse('realtor_profile', args=[realtor.id]))
+    
+    # Parse the URL and add the port
+    url_parts = urlparse(profile_url)
+    profile_url = url_parts._replace(netloc=f"{url_parts.hostname}:8081").geturl()
+    
     # Generate QR code from the URL
     qr_code = generate_qr(profile_url)  # This now returns base64-encoded image data
 
@@ -42,7 +47,6 @@ def edit_realtor_profile(request):
 
     context = {
         'form': form,
-        'qr_code': qr_code,
-        'photo' : realtor_photo
+        'qr_code': qr_code  # Pass the base64-encoded QR code to the template
     }
     return render(request, 'realtors/edit_profile.html', context)

@@ -1,6 +1,6 @@
 services:
   django:
-    image: realestate
+    image: realestateapp
     volumes:
       - C:/apps/Realestate/realestateapp/static:/app/realestateapp/static/
       - C:/apps/Realestate/realestateapp/media:/app/media/
