@@ -66,6 +66,7 @@ def edit_listing_view(request, listing_id):
         listing.lot_size = request.POST.get('lot_size', listing.lot_size)
         listing.garage = request.POST.get('garage', listing.garage)
         listing.description = request.POST.get('description', listing.description)
+        listing.virtual_tour = request.POST.get('virtual_tour', listing.virtual_tour)
         #if no photo added do not update current fields
         if 'photo_main' in request.FILES:
             listing.photo_main = request.FILES['photo_main']
@@ -203,6 +204,7 @@ def add_listing_view(request):
             lot_size=request.POST['lot_size'],
             garage=request.POST['garage'],
             description=request.POST['description'],
+            virtual_tour=request.POST['virtual_tour']
         )
         
         for i in range(1, 10):  # Assuming a maximum of 9 additional photos
