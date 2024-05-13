@@ -110,7 +110,7 @@
                 </span>
                 </li>
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-money-bill-alt"></i> Pyet për Çmim:
+                  <i class="fas fa-money-bill-alt"></i> Çmimi:
                   <span class="float-right">${{ listing.price | intcomma }}</span>
                 </li>
                 <li class="list-group-item text-secondary">
@@ -133,9 +133,14 @@
                 <li class="list-group-item text-secondary">
                   <i class="fas fa-th-large"></i> Virtual Tour:
                   <span class="float-right">
-                    <a href="https://my.matterport.com/show/?m=RMgmD8x9xfn" target="_blank">
-                      <i class="fas fa-th-large"></i>
-                    </a>
+                    {% if listing.virtual_tour %}
+                    <a href="{{ listing.virtual_tour }}" target="_blank">
+                      {% else %}
+                      <a href="#" target="_blank">
+                        <i class="fas fa-th-large"></i>
+                      </a>
+                    {% endif %}
+                  </a>
                   </span>
                 </li>
                 <li class="list-group-item text-secondary">

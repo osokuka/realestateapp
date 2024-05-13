@@ -47,6 +47,8 @@ def edit_listing_view(request, listing_id):
 
     listing = get_object_or_404(Listing, pk=listing_id)
 
+    print(request.FILES)  # See what files are being received
+
     if request.method == 'POST':
         # Assuming you have a form to handle the data. Adjust the fields as necessary.
         listing.title = request.POST.get('title', listing.title)
@@ -64,21 +66,14 @@ def edit_listing_view(request, listing_id):
         listing.lot_size = request.POST.get('lot_size', listing.lot_size)
         listing.garage = request.POST.get('garage', listing.garage)
         listing.description = request.POST.get('description', listing.description)
+        listing.virtual_tour = request.POST.get('virtual_tour', listing.virtual_tour)
         #if no photo added do not update current fields
         if 'photo_main' in request.FILES:
             listing.photo_main = request.FILES['photo_main']
-        if 'photo_1' in request.FILES:
-            listing.photo_1 = request.FILES['photo_1']
-        if 'photo_2' in request.FILES:
-            listing.photo_2 = request.FILES['photo_2']
-        if 'photo_3' in request.FILES:
-            listing.photo_3 = request.FILES['photo_3']
-        if 'photo_4' in request.FILES:
-            listing.photo_4 = request.FILES['photo_4']
-        if 'photo_5' in request.FILES:
-            listing.photo_5 = request.FILES['photo_5']
-        if 'photo_6' in request.FILES:
-            listing.photo_6 = request.FILES['photo_6']
+        for i in range(1, 10):  # Assuming a maximum of 9 additional photos
+            photo_key = f'photo_{i}'
+            if photo_key in request.FILES:
+                setattr(listing, photo_key, request.FILES[photo_key])
 
         listing.save()
         messages.success(request, 'Listing updated successfully!')
@@ -188,8 +183,8 @@ def add_listing_view(request):
         try:
             realtor = Realtor.objects.get(user_id=user_id)
         except Realtor.DoesNotExist:
-            messages.error(request, 'Realtor profile does not exist.')
-            return redirect('realtors:create')
+            messages.error(request, 'Profili realtorit nuk eshte aktivizuar, kontaktoni realestate@prosolutions-ks.com.')
+            return redirect('dashboard')
         # Create a new listing instance from POST data
         new_listing = Listing(
             realtor=realtor,
@@ -209,17 +204,20 @@ def add_listing_view(request):
             lot_size=request.POST['lot_size'],
             garage=request.POST['garage'],
             description=request.POST['description'],
+            virtual_tour=request.POST['virtual_tour']
         )
         
         for i in range(1, 10):  # Assuming a maximum of 9 additional photos
             photo_key = f'photo_{i}'
             if photo_key in request.FILES:
                 setattr(new_listing, photo_key, request.FILES[photo_key])
-
+        
+        print(new_listing)
         new_listing.save()
         messages.success(request, 'Your listing has been successfully created!')
         return redirect('dashboard')
     else:
+    
         context = {
             'state_choices': state_choices,
             'cities_choices': cities_choices

@@ -3,6 +3,20 @@
 {% block title %}Edit Listing{% endblock %}
 
 {% block content %}
+<style>
+    #photoUploadsContainer {
+        border: none !important;  /* Ensures no border around the container */
+        padding: 0;  /* Removes padding if any */
+    }
+    #listingMainPhoto {
+        border: none;  /* Removes border around the main photo input */
+        box-shadow: none;  /* Removes shadow if any */
+    }
+    #addPhotoButton {
+        margin-top: 20px;  /* Adds top margin */
+        margin-bottom: 20px;  /* Adds bottom margin */
+    }
+</style>
 <div class="container mt-5">
     <h2 class="mb-4">Edit Listing</h2>
     <form id="editListingForm" class="form-row" method="post" enctype="multipart/form-data">
@@ -77,26 +91,36 @@
                 <textarea class="form-control" id="listingDescription" name="description" rows="3">{{ listing.description }}</textarea>
             </div>
         </div>
-        <div class="col-12">
+        <div class="col-md-3">
             <div class="form-group" id="photoUploadsContainer">
-                <label for="listingMainPhoto">Foto</label>
-                <input type="file" class="form-control" id="listingMainPhoto" name="main_photo">
+                <label for="listingMainPhoto" class="font-weight-bold">Main Photo</label>
+                <div class="custom-file">
+                    <input type="file" class="form-control-file mt-2" id="listingMainPhoto" name="photo_main">
+                    
+                </div>
+                <!-- Container for additional photos -->
+                <div id="additional-photos"></div>
+                <button type="button" class="btn btn-info" id="addPhotoButton">Add More Photos</button>
             </div>
-            <button type="button" class="btn btn-info" id="addPhotoButton">Add More Photos</button>
         </div>
-        <div class="col-12 mt-4">
+        <div class="col-12 mt-1">
             <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
     </form>
 </div>
 <script>
-    document.getElementById('add-photo-btn').addEventListener('click', function() {
-        var container = document.getElementById('addPhotoButton');
+document.addEventListener('DOMContentLoaded', function() {
+    let photoIndex = 1;  // Start indexing from 1
+    document.getElementById('addPhotoButton').addEventListener('click', function() {
+        var container = document.getElementById('additional-photos');
         var newPhotoInput = document.createElement('input');
         newPhotoInput.type = 'file';
-        newPhotoInput.name = 'additional_photos';
+        newPhotoInput.name = 'photo_' + photoIndex;  // Use photoIndex to name the input fields
         newPhotoInput.className = 'form-control-file mt-2';
         container.appendChild(newPhotoInput);
+        photoIndex++;  // Increment the index for the next photo
     });
-    </script>
+});
+</script>
 {% endblock %}
+
