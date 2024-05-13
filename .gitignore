@@ -8,6 +8,9 @@ pages/__pycache__
 *.pyc
 *.pyo
 *.jpg
+media/*.jpg
+media/*.png
+media/*.gif
 
 
 
