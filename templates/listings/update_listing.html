@@ -79,6 +79,14 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="listingGoogleLocation">Lokacioni Google</label>
+                <input type="text" class="form-control" id="listingGoogleLocation" name="lat_long" value="{{ listing.latitude }}, {{ listing.longitude }}">
+            </div>
+            <div class="form-group">
+                <label for="listingCadastralRecord">Nr kadastral</label>
+                <input type="text" class="form-control" id="listingCadastralRecord" name="cadastral_record" value="{{ listing.cadastral_record }}">
+            </div>
+            <div class="form-group">
                 <label for="listingPrice">Cmimi</label>
                 <input type="text" class="form-control" id="listingPrice" name="price" value="{{ listing.price }}">
             </div>

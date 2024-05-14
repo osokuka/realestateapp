@@ -9,6 +9,10 @@ class Listing(models.Model):
   city = models.CharField(max_length=100)
   state = models.CharField(max_length=100)
   zipcode = models.CharField(max_length=20)
+  google_location = models.URLField(max_length=500, blank=True, null=True)
+  latitude = models.CharField(max_length=200, blank=True, null=True)
+  longitude = models.CharField(max_length=200, blank=True, null=True)
+  cadastral_record = models.CharField(max_length=200, blank=True, null=True)
   type = models.CharField(max_length=100, default='Shtepi') #default
   description = models.TextField(blank=True)
   price = models.IntegerField()

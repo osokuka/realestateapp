@@ -50,12 +50,20 @@ def edit_listing_view(request, listing_id):
     print(request.FILES)  # See what files are being received
 
     if request.method == 'POST':
+
+        lat_long = request.POST.get('lat_long', '').split(',')
+        listing.latitude = float(lat_long[0].strip()) if len(lat_long) > 1 else listing.latitude
+        listing.longitude = float(lat_long[1].strip()) if len(lat_long) > 1 else listing.longitude
         # Assuming you have a form to handle the data. Adjust the fields as necessary.
         listing.title = request.POST.get('title', listing.title)
         listing.address = request.POST.get('address', listing.address)
         listing.city = request.POST.get('city', listing.city)
         listing.state = request.POST.get('state', listing.state)
         listing.zipcode = request.POST.get('zipcode', listing.zipcode)
+        listing.latitude = request.POST.get('latitude', listing.latitude)
+        listing.longitude = request.POST.get('longitude', listing.longitude)
+        #listing.google_location = request.POST.get('google_location', listing.google_location)
+        listing.cadastral_record = request.POST.get('cadastral_record', listing.cadastral_record)
         listing.price = request.POST.get('price', listing.price)
         listing.bedrooms = request.POST.get('bedrooms', listing.bedrooms)
         listing.bathrooms = request.POST.get('bathrooms', listing.bathrooms)
@@ -169,7 +177,20 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Listing, Realtor
+from html.parser import HTMLParser
 
+
+
+class IframeSrcExtractor(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.src = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "iframe":
+            for attr in attrs:
+                if attr[0] == "src":
+                    self.src = attr[1]
 
 @login_required
 def add_listing_view(request):
@@ -185,6 +206,10 @@ def add_listing_view(request):
         except Realtor.DoesNotExist:
             messages.error(request, 'Profili realtorit nuk eshte aktivizuar, kontaktoni realestate@prosolutions-ks.com.')
             return redirect('dashboard')
+
+        lat_long = request.POST.get('lat_long', '').split(',')
+        latitude = float(lat_long[0].strip()) if len(lat_long) > 1 else None
+        longitude = float(lat_long[1].strip()) if len(lat_long) > 1 else None
         # Create a new listing instance from POST data
         new_listing = Listing(
             realtor=realtor,
@@ -192,6 +217,10 @@ def add_listing_view(request):
             address=request.POST['address'],
             city=request.POST['city'],
             state=request.POST['state'],
+            latitude=latitude,
+            longitude=longitude,
+            #google_location=google_location_url,
+            cadastral_record=request.POST['cadastral_record'],
             zipcode=request.POST['zipcode'],
             price=request.POST['price'],
             bedrooms=request.POST['bedrooms'],
