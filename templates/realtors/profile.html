@@ -61,10 +61,15 @@
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card listing-preview">
                     <img class="card-img-top" src="{{ listing.photo_main.url }}" alt="">
-
+                    {% if listing.price == 0 %}
+                    <div class="card-img-overlay">
+                        <h5><span class="badge badge-secondary text-white">Me Marrveshje</span></h5>
+                        </div>  
+                    {% else %}
                     <div class="card-img-overlay">
                         <h2><span class="badge badge-secondary text-white">${{ listing.price | intcomma }}</span></h2>
                     </div>
+                    {% endif %}
                     <div class="card-body">
                         <div class="listing-heading text-center">
                             <h4 class="text-primary">{{ listing.title }}</h4>
@@ -79,6 +84,9 @@
                             <div class="col-6"><i class="fas fa-bed"></i> Dhoma gjumi: {{ listing.bedrooms }}</div>
                             <div class="col-6"><i class="fas fa-bath"></i> Banjo: {{ listing.bathrooms }}</div>
                         </div>
+                        {% if listing.virtual_tour %}
+                            <a href="{{ listing.virtual_tour }}" target="_blank" class="btn btn-primary btn-block">Tour Virtual</a>
+                            {% endif %}
                         <hr>
                         <a href="{% url 'listing' listing.id %}" class="btn btn-primary btn-block">Më shumë info</a>
                     </div>
