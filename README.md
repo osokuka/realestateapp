@@ -27,7 +27,7 @@ This is a real estate listings website built with Django, designed to be respons
 2. **Navigate to the project directory**
 
    ```sh
-   cd Real-Estate-Django-Web-App
+   cd RealEstateApp
    ```
 
 3. **Install required Python packages**
