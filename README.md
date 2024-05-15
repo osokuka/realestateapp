@@ -1,39 +1,36 @@
-<<<<<<< HEAD
 # Real Estate Django Web App
 
-A real estate listings website built with `python` `django` `bootstrap`.
+This is a real estate listings website built with Django, designed to be responsive and functional. It utilizes Python, Django, Bootstrap 4, Vanilla JS, and JQuery.
 
-A simple, reponsive  website. Built with:
+## Features
 
-- Python 🐍
-- Django 🎸
-- Bootstrap 4 🌈
-- Vanilla JS - ES6
-- JQuery
+- Responsive web design
+- Integration with PostgreSQL
+- Full CRUD functionality for real estate listings
+- User authentication and authorization
+- Admin panel for managing listings, realtors, and user enquiries
 
-If you are new to Django, checkout the [Django 2.x Cheat Sheet](https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App/blob/master/django_cheat_sheet.md)
+## Prerequisites
 
-If you want to deploy this Web App In Ubuntu 18.04 Server, Please Follow this [Guide](https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App/blob/master/Django_Deployment_to_Ubuntu_18.04.md) 
+- Python 3.6 or higher
+- pip
+- PostgreSQL
 
-## How to run this project (Ubuntu 18.04)
+## Setup and Installation
 
-1. **Clone the project**
+1. **Clone the repository**
 
-```sh
-git clone https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App.git
-```
+   ```sh
+   git clone https://github.com/osokuka/realestateapp.git
+   ```
 
-2.  **Make sure you are in *Real-Estate-Django-Web-App* folder**
+2. **Navigate to the project directory**
 
-   1. Install all dependencies
+   ```sh
+   cd Real-Estate-Django-Web-App
+   ```
 
-      ```sh
-      pip install -r requirements.txt
-      ```
-
-3. **Install PostgreSQL in your Ubuntu 18.04**
-
-   1. Enable PostgreSQL Apt Repository
+3. **Install required Python packages**
 
       ```sh
       sudo apt-get install wget ca-certificates
@@ -45,128 +42,43 @@ git clone https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App.git
       sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
       ```
 
-   2. Install PostgreSQL on Ubuntu
+4. **Setup PostgreSQL**
 
-      ```sh
-      sudo apt-get update
-      sudo apt-get install postgresql postgresql-contrib
-      ```
+   - Install PostgreSQL and create a database named `real_estate`.
+   - Create a user and grant all privileges on the database.
 
-   3. Connect to PostgreSQL
+5. **Apply migrations**
 
-      ```sh
-      sudo su - postgres
-      psql
-      ```
+   ```sh
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
 
-      Now you are logged in to PostgreSQL database server. To check login info use following command from the database command prompt.
+6. **Run the development server**
 
-      ```sh
-      postgres-# \conninfo
-      ```
+   ```sh
+   python manage.py runserver
+   ```
 
-   4. Create a database
+## Docker and Nginx Configuration
 
-      ```sh
-      CREATE DATABASE real_estate;
-      ```
+Refer to the provided `docker-compose.yml` and `nginx/nginx.conf` files for setting up the application using Docker and Nginx.
 
-   5. Create user 
+## Deployment
 
-      ```sh
-      CREATE USER pks WITH PASSWORD 'abc123!';
-      ```
-   
-4. **Run Migrations**
+For detailed deployment instructions on a live server, refer to the Docker and Nginx configuration files included in the repository.
 
-```sh
-python manage.py makemigrations
-python manage.py migrate
-```
+## Owner
 
-5. **Run Server**
-
-```sh
-python manage.py runserver 
-```
-
-And you are good to go. 
-
-
-**To run with SQLite only**
-
-Go inside the 'realestate' folder and open 'settings.py' file and replace
-
-```sh
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'real_estate' ,
-        'USER': 'pks',
-        'PASSWORD': 'abc123!',
-        'HOST':'localhost',
-        
-    }
-}
-```
-
-To: 
-
-```sh
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-```
-
-This is the default configuration of Django database.
-
-
-**Backend**
-
-For Database I have used Postgres Database Name: real_estate
-
-Note: Please change those gmail credentials from real_estate folder you will get settings.py inside that file you will see username and password mentioned as place your Username and Password. Also do that same thing from Contacts folder views.py you will see YourEmail mentioned on line number 33.
-
-### Screenshots
-
-- **HOME**
-
-![Home](https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App/blob/master/screenshots/s1.JPG)
-
-- **Listings** 
-
-
-![Listings](https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App/blob/master/screenshots/s3list.JPG)
-
-- **Registration** 
-
-![Registration](https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App/blob/master/screenshots/s4reg.JPG)
-
-- **Admin Panel - 1**
-
-![Admin](https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App/blob/master/screenshots/s5adm.JPG)
-
-- **Admin Panel - 2**
-
-![Admin](https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App/blob/master/screenshots/s6r.JPG)
-
-- **About**
-
-![About ](https://github.com/TheCaffeineDev/Real-Estate-Django-Web-App/blob/master/screenshots/s2about.JPG)
-
+- **Name:** Real Estate Pro Solutions
+- **Email:** realestate@prosolutions-ks.com
+- **GitHub Repository:** [Real Estate App](https://github.com/osokuka/realestateapp.git)
 
 ## Acknowledgments
 
-Many thanks to [@bradtraversy](https://github.com/bradtraversy) for his awesome course.
+Special thanks to all contributors and developers who have worked on this project.
 
-##### References
+## License
 
-1. https://www.traversymedia.com/
-2. https://www.djangoproject.com/
-=======
-# realestateapp
->>>>>>> origin/main
+This project is licensed under the MIT License - see the LICENSE file for details.
+
