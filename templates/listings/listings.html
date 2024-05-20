@@ -43,6 +43,7 @@
                 <img class="card-img-top" src="{{ listing.photo_main.url }}" alt="">
                 <div class="card-img-overlay">
                   {% if listing.price == 0 %}
+
                     <h5>
                       <span class="badge badge-secondary text-white">Çmimi Negociohet</span>
                     </h5>
@@ -50,7 +51,8 @@
                     <h2>
                       <span class="badge badge-secondary text-white">${{ listing.price | intcomma }}</span>
                     </h2>
-                  {% endif %}
+
+                 {% endif %}
                   
                 </div>
                 <div class="card-body">

@@ -1,0 +1,10 @@
+docker build -t realestateapp .
+docker-compose up
+
+
+
+persistent media for realestateapp
+
+docker volume create realestate_media
+docker run -d -v realestate_media:/app/media realestateapp
+
