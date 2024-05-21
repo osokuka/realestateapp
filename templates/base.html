@@ -3,6 +3,13 @@
 <html lang="en">
 
 <head>
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0"></script>
+  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Real Estate" />
+  <meta property="og:description" content="Real Estate" />
+  <meta property="og:image" content="{{ request.build_absolute_uri|cut:'/' }}{{ listing.photo_main.url }}" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">

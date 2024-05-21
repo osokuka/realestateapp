@@ -5,6 +5,7 @@ from contacts.models import Contact
 from .models import UserProfile
 from listings.models import Listing
 from realtors.models import Realtor
+from django.core.paginator import Paginator
 
 def register(request):
   if request.method == 'POST':
@@ -74,11 +75,6 @@ def logout(request):
     messages.success(request, 'You are now logged out')
     return redirect('index')
 
-from django.shortcuts import render
-from contacts.models import Contact
-from listings.models import Listing
-from accounts.models import UserProfile
-
 def dashboard(request):
     user = request.user
     context = {}
@@ -86,23 +82,25 @@ def dashboard(request):
     # Check if the user has a profile and if they are a realtor
     if hasattr(user, 'profile') and user.profile.is_realtor:
         try:
-            
             realtor = Realtor.objects.get(user=user)
-            #lets select all listings with all info for this realtor
-            realtor_listings = Listing.objects.filter(realtor=realtor).select_related('realtor')
-            first_realtor_id = realtor_listings.first().realtor.id if realtor_listings.exists() else None
-            print(first_realtor_id)
-            #print(realtor)
+            # Select all listings with all info for this realtor
+            realtor_listings = Listing.objects.filter(realtor=realtor).select_related('realtor').order_by('-list_date')
+            
+            # Set up pagination
+            paginator = Paginator(realtor_listings, 10)  # 10 listings per page
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            context['page_obj'] = page_obj
 
+            first_realtor_id = realtor_listings.first().realtor.id if realtor_listings.exists() else None
             contacts = Contact.objects.filter(listing__in=realtor_listings).select_related('listing').order_by('-contact_date')
-            print(contacts)        
+            
         except Realtor.DoesNotExist:
             messages.error(request, "Realtor profile not found.")
             return redirect('some_error_page')
 
         contacts_with_listings = [
             {
-                
                 'name': contact.name,
                 'email': contact.email,
                 'phone': contact.phone,
@@ -113,7 +111,6 @@ def dashboard(request):
             for contact in contacts
         ]
         context['contacts_with_listings'] = contacts_with_listings
-        context['realtor_listings'] = realtor_listings
         context['first_realtor_id'] = first_realtor_id
 
     else:
@@ -136,4 +133,5 @@ def dashboard(request):
       
 
     return render(request, 'accounts/dashboard.html', context)
+    
     
