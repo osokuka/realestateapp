@@ -25,11 +25,17 @@ class RentListing(models.Model):
     bathrooms = models.IntegerField()
     video = models.URLField(null=True, blank=True)
     virtual_tour = models.URLField(null=True, blank=True)
-    floor_plan = models.ImageField(upload_to='images/', null=True, blank=True)
+    floor_plan = models.ImageField(upload_to=f'media/{uuid}/', null=True, blank=True)
     available_from = models.DateField()
     available_to = models.DateField()
-    image = models.ImageField(upload_to='images/')
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    main_image = models.ImageField(upload_to=f'media/{uuid}/')
+    image_1 = models.ImageField(upload_to=f'media/{uuid}/', null=True, blank=True)
+    image_2 = models.ImageField(upload_to=f'media/{uuid}/', null=True, blank=True)
+    image_3 = models.ImageField(upload_to=f'media/{uuid}/', null=True, blank=True)
+    image_4 = models.ImageField(upload_to=f'media/{uuid}/', null=True, blank=True)
+    image_5 = models.ImageField(upload_to=f'media/{uuid}/', null=True, blank=True)
+    image_6 = models.ImageField(upload_to=f'media/{uuid}/', null=True, blank=True)    
+    user = models.ForeignKey('User', on_delete=models.DO_NOTHING)
 
 #booking calendar
 class BookingCalendar(models.Model):

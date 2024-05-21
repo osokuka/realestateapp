@@ -192,6 +192,8 @@ class IframeSrcExtractor(HTMLParser):
                 if attr[0] == "src":
                     self.src = attr[1]
 
+
+
 @login_required
 def add_listing_view(request):
     #load choices for state and city
@@ -199,6 +201,9 @@ def add_listing_view(request):
     state_choices = state_choices
     cities_choices = cities_choices
 
+    #create a 16 digit random hash, combined with another 32 digit random hash
+    
+    #print(hash_code)
     if request.method == 'POST':
         user_id = request.user
         try:
@@ -241,7 +246,7 @@ def add_listing_view(request):
             if photo_key in request.FILES:
                 setattr(new_listing, photo_key, request.FILES[photo_key])
         
-        print(new_listing)
+        #print(new_listing)
         new_listing.save()
         messages.success(request, 'Your listing has been successfully created!')
         return redirect('dashboard')
