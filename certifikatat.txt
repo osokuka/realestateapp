@@ -1,0 +1,100 @@
+docker run -it --rm -v C:/apps/Realestate/realestateapp/certificates:/etc/letsencrypt -v C:/apps/Realestate/realestateapp/certificates-data:/data/letsencrypt certbot/certbot certonly --webroot -w /data/letsencrypt -d tetregu.com -d www.tetregu.com
+docker exec -it realestateapp-nginx-1 ls /etc/ssl
+docker run -it --rm -v C:/apps/Realestate/realestateapp/certificates:/etc/letsencrypt -v C:/apps/Realestate/realestateapp/certificates-data:/data/letsencrypt certbot/certbot certonly --webroot -w /data/letsencrypt -d tetregu.com -d www.tetregu.com
+
+docker-compose.yml
+services:
+  #django:
+  #  image: realestateapp
+  #  volumes:
+      #- C:/apps/Realestate/realestateapp/static:/app/realestateapp/static/
+      #- C:/apps/Realestate/realestateapp/media:/app/media/
+    #networks:
+      #- webnet
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - C:/apps/Realestate/realestateapp/static:/var/www/static/
+      - C:/apps/Realestate/realestateapp/media:/var/www/media/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certificates-data:/data/letsencrypt  # Ensure this is the correct path where Certbot will store certificates
+    ports:
+      - "8081:8081"
+      - "80:80"  # Expose port 80 for HTTP validation
+      - "443:443"  # Expose port 443 for HTTPS
+    networks:
+      - webnet
+
+volumes:
+  static_volume:
+  media_volume:
+
+networks:
+  webnet:
+
+
+nginx.conf
+
+user nginx;
+worker_processes auto;  # Adjust this to your number of CPU cores
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections 1024;  # Increase this depending on your expected load
+}
+
+http {
+    # Basic Settings
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+
+    # MIME Types
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    # Logging Settings
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    # Gzip Settings
+    gzip on;
+    gzip_disable "msie6";
+
+    # Virtual Host Configs
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+
+    # Redirect HTTP to HTTPS
+    server {
+        listen 80;
+        server_name tetregu.com www.tetregu.com;
+
+        location /.well-known/acme-challenge/ {
+            root /data/letsencrypt;  # Ensure this path matches the one used in the Certbot command
+            try_files $uri $uri/ =404;
+        }
+
+        # Comment out the following line to disable HTTPS redirection during certificate issuance
+        # location / {
+        #     return 301 https://$host$request_uri;
+        # }
+    }
+
+    # HTTPS Server Block
+    # Comment out this entire block initially to avoid errors on startup
+    # server {
+    #     listen 443 ssl;
+    #     server_name tetregu.com www.tetregu.com;
+    #
+    #     ssl_certificate /etc/letsencrypt/live/tetregu.com/fullchain.pem;
+    #     ssl_certificate_key /etc/letsencrypt/live/tetregu.com/privkey.pem;
+    #     ssl_trusted_certificate /etc/letsencrypt/live/tetregu.com/chain.pem;
+    #
+    #     ... (rest of your SSL configuration)
+    # }
+}
+
