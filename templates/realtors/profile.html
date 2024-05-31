@@ -55,6 +55,27 @@
 {% load humanize %}
 <!-- Listings by Realtor -->
 <section id="listings" class="py-4">
+    <style>
+        .listing-preview {
+      display: flex;
+      flex-direction: column;
+      height: 100%; /* Ensures that the card stretches to fill the container */
+  }
+  
+  .card-img-top {
+      width: 100%; /* Makes image take full width of the card */
+      height: 200px; /* Fixed height for all images */
+      object-fit: cover; /* Ensures the image covers the area without distorting aspect ratio */
+  }
+  
+  .card-body {
+      flex: 1; /* Allows the card body to fill the space left by the image */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* Distributes space inside the card body evenly */
+  }
+        
+      </style>
     <div class="container">
         <div class="row">
             {% for listing in listings %}

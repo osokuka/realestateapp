@@ -25,7 +25,7 @@ price_choices = {
 }
 
 state_choices = {
-    'State (All)':'State (All)',
+   
     'Shqipëri': 'Shqipëri',
     'Kosova': 'Kosova',
     'Maqedoni': 'Maqedoni',
@@ -33,7 +33,7 @@ state_choices = {
 }
 
 cities_choices = {
-    "City (All)": "City (All)",
+    
     "Prishtina": "Prishtina",
     "Peja": "Peja",
     "Gjakova": "Gjakova",

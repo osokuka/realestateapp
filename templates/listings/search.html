@@ -19,7 +19,7 @@
 
   <div class="col-md-4 mb-3">
     <label class="sr-only">City</label>
-    <select name="city" class="form-control">
+    <select name="city" class="form-control select2">
       <option selected="false" disabled="enabled">Qyteti</option>
       {% for key,value in cities_choices.items %}
         <option value="{{ key }}"
@@ -33,7 +33,7 @@
 
     <div class="col-md-4 mb-3">
     <label class="sr-only">State</label>
-    <select name="state" class="form-control">
+    <select name="state" class="form-control select2">
       <option selected="false" disabled="enabled">Shteti</option>
       {% for key,value in state_choices.items %}
           <option value="{{ key }}" 
@@ -77,6 +77,14 @@
                 <button class="btn btn-secondary btn-block mt-4 mr-3" type="submit">Kërko</button>
                 <button class="btn btn-secondary btn-block mt-4" type="reset">Rifresko</button>
                 <script>
+                  $(document).ready(function() {
+                      $('.select2').select2({
+                          placeholder: "Select an option",
+                          allowClear: true
+                      });
+                  });
+                  </script>
+                <script>
                 document.addEventListener("DOMContentLoaded", function() {
                     var resetButton = document.querySelector('button[type="reset"]');
                     resetButton.addEventListener('click', function(e) {
@@ -116,8 +124,30 @@
 
   <!-- Listings -->
   <section id="listings" class="py-4">
+    <style>
+      .listing-preview {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensures that the card stretches to fill the container */
+}
+
+.card-img-top {
+    width: 100%; /* Makes image take full width of the card */
+    height: 200px; /* Fixed height for all images */
+    object-fit: cover; /* Ensures the image covers the area without distorting aspect ratio */
+}
+
+.card-body {
+    flex: 1; /* Allows the card body to fill the space left by the image */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distributes space inside the card body evenly */
+}</style>
     <div class="container">
       <div class="row">
+        
+          
+        
         {% if listings %}
           {% for listing in listings %}
           <div class="col-md-6 col-lg-4 mb-4">

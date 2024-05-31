@@ -31,10 +31,10 @@ def edit_realtor_profile(request):
     profile_url = request.build_absolute_uri(reverse('realtor_profile', args=[realtor.id]))
     
     # Parse the URL, replace the hostname and port
-    url_parts = urlparse(profile_url)
-    new_netloc = "5.206.238.1:8081"
-    new_url_parts = url_parts._replace(netloc=new_netloc)
-    profile_url = urlunparse(new_url_parts)
+    #url_parts = urlparse(profile_url)
+    #new_netloc = "tetregu.com"
+    #new_url_parts = url_parts._replace(netloc=new_netloc)
+    #profile_url = urlunparse(ur)
     
     # Generate QR code from the URL
     qr_code = generate_qr(profile_url)
