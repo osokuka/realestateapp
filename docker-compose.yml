@@ -10,13 +10,11 @@ services:
   nginx:
     image: nginx:latest
     volumes:
-      - C:/apps/Realestate/certificates:/etc/letsencrypt/  # Mount the certificates directory
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - C:/apps/Realestate/realestateapp/static:/var/www/static/
       - C:/apps/Realestate/realestateapp/media:/var/www/media/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "443:443"  # Ensure HTTPS port is exposed
-      - "80:80"    # Optional: for HTTP to HTTPS redirection
+      - "8081:8081"
     networks:
       - webnet
 
@@ -25,5 +23,4 @@ volumes:
   media_volume:
 
 networks:
-  
   webnet:

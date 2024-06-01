@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'widget_tweaks',
 ]
-CSRF_TRUSTED_ORIGINS = ['https://tetregu.com', 'https://www.tetregu.com', 'https://5.206.238.1:443', '5.206.238.1:80', 'localhost']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
