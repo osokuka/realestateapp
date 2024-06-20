@@ -99,7 +99,7 @@ DATABASES = {
         'NAME': 'real_estate' ,
         'USER': 'real_estate_user',
         'PASSWORD': 'Ferizaj2024!',
-        'HOST':'192.168.1.168',
+        'HOST':'127.0.0.1',
          'PORT':'5432'   
     }
 }
